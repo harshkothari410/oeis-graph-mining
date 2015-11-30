@@ -96,15 +96,12 @@ def find_doc_dis(reference_dict, comment_dict, seq1, seq2):
 	try:
 		if product == 0:
 			distance = math.acos(0)
-		else:
-			if float(product / ( l1 * l2 )) == 1.0:
-				distance = math.acos(1)
-			else:
-				distance = math.acos( float(product) / ( l1 * l2 ) )
+		else:	
+			distance = math.acos( float(product / round(( l1 * l2 ),2)) )
 	except:
 		distance = math.acos(1)
 		waste[seq1] = seq2
-	return format(distance, '.4f')
+	return (int(distance*1000) + 50)
 
 def new_graph( graph, reference_data, comment_data ):
 	newgraph = {}
@@ -123,8 +120,10 @@ def new_graph( graph, reference_data, comment_data ):
 					temp[seq2] = weight
 					# print temp
 				newgraph[k] = temp
-				print count
+				# print count
 				count = count + 1
+				# if count == 10:
+				# 	return newgraph
 		except:
 			newgraph[k] = {}
 			waste_seq.append(seq2)
@@ -133,7 +132,7 @@ def new_graph( graph, reference_data, comment_data ):
 	return newgraph
 
 def write_json( graph ):
-	newgraph = open('../data/newgraph_dd.json', 'w')
+	newgraph = open('../data/newgraph_dd50.json', 'w')
 	json1 = json.dumps(graph, sort_keys=True, indent=4)
 	newgraph.write(json1)
 	newgraph.close()
@@ -150,6 +149,10 @@ write_json( newgraph )
 
 print waste
 print waste_seq
+w = open('wasted.json','w')
+j = json.dumps(waste, indent=4)
+w.write(j)
+w.close()
 # print reference_data['1']
 # print comment_data['1']
 
