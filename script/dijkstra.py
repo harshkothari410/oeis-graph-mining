@@ -21,6 +21,8 @@ def dijkstra(graph,src,dest,visited=[],distances={},predecessors={}):
         if not visited: 
             distances[src]=0
         # visit the neighbors
+        # 124010print src
+        print src
         for neighbor in graph[src] :
             if neighbor not in visited:
                 new_distance = distances[src] + graph[src][neighbor]
@@ -32,6 +34,7 @@ def dijkstra(graph,src,dest,visited=[],distances={},predecessors={}):
         # now that all neighbors have been visited: recurse                         
         # select the non visited node with lowest distance 'x'
         # run Dijskstra with src='x'
+        # print 
         unvisited={}
         for k in graph:
             if k not in visited:
@@ -44,7 +47,7 @@ def dijkstra(graph,src,dest,visited=[],distances={},predecessors={}):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     #unittest.main()
-    ng = open('../data/newgraph.json')
+    ng = open('../data/newgraph_dd50.json')
     import json
     graph = json.loads(ng.read())
     # graph = {'s': {'a': 2, 'b': 1},
@@ -53,4 +56,4 @@ if __name__ == "__main__":
     #         'c': {'a': 2, 'd': 7, 't': 4},
     #         'd': {'b': 1, 'c': 11, 't': 5},
     #         't': {'c': 3, 'd': 5}}
-    dijkstra(graph,'2664','35039')
+    dijkstra(graph,'108','8459')
