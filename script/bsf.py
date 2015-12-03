@@ -29,7 +29,7 @@ def bfs_paths(graph, start, goal, count):
 				count = count + 1
 				print count
 
-				if count > 50:
+				if count  > 10:
 					sys.exit()
 				print path + [next]
 				yield path + [next]
@@ -47,4 +47,4 @@ graph = create_graph()
 # print "Enter the second Sequence No : "
 # b = raw_input()
 # print "Path Between : " + a + " and " + b
-print list(bfs_paths(graph,'5710','1792', 0))
+print list(bfs_paths(graph,'2083','154809', 0))
