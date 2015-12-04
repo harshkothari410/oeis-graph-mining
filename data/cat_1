@@ -1,0 +1,3 @@
+f=open('catalans.txt')
+
+i=f.read()
