@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OEIS - Graph Mining</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="/static/css/timeline.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/static/css/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <style>
+
+        .node {
+          stroke: #fff;
+          stroke-width: 1.5px;
+        }
+
+        .link {
+          stroke: #999;
+          stroke-opacity: .6;
+        }
+
+         #page-wrapper1{
+            width: 100%;
+            height: 100%;
+            background: white;
+            padding-left: 20px;
+            padding-bottom: 30px;
+        }
+
+    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">OEIS Graph Mining</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+
+                 <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/">
+                        Shortest Path
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/tab2/">
+                        Case 2
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/sssp/">
+                        SSSP
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/apsp/">
+                        ASPS
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/centroids/">
+                        Centroids
+                    </a>
+                </li>
+                
+                <!-- /.dropdown -->
+            </ul>
+           
+            <!-- /.navbar-top-links -->
+
+            
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper1" class="wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Relation of Arbitary sequence from Longest Path of Sequences (A46 - A230318)</h1>
+                    <p>['46', u'11', u'13', u'10', u'178323', u'178325', u'214403', u'131338', u'121690', u'157133', u'157134', u'107595', u'107590', u'155804', u'155806', u'192036', u'125281', u'230323', u'230321', u'230317', '230318']</p>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <form role="form" id="submit_form">
+                                       
+                        <div class="form-group">
+                            <label>Enter arbitary Sequence</label>
+                            <input class="form-control" name="seq1" placeholder="Enter sequence">
+                        </div>
+                        
+                        <button type="submit" id= "submit" class="btn btn-default">Submit Button</button>
+                        <button type="reset" class="btn btn-default">Reset Button</button>
+                    </form>
+                </div>
+                 
+            </div>
+
+            
+            <!-- /.row -->
+            <!-- /.row -->
+        </div>
+        </div>
+
+            <div class="col-sm-12">
+                <div>
+                     <h1 class="page-header">Connection</h1>
+                    <p class="visual1 col-sm-12"></p>
+                </div>
+            </div>
+
+            <!-- /.row -->
+        <!-- /#page-wrapper -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+
+
+    <script>
+
+    var draw1 = function(graph){
+        var width = 1200,
+        height = 1200;
+
+    var color = d3.scale.category10();
+
+    var force = d3.layout.force()
+        .charge(-100)
+        .linkDistance(20)
+        .gravity(0.1)
+        .size([width, height]);
+
+    var svg = d3.select(".visual1").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      force
+          .nodes(graph.nodes)
+          .links(graph.links)
+          .start();
+
+        var link = svg.selectAll(".link")
+            .data(graph.links)
+          .enter().append("line")
+            .attr("class", "link")
+            .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+        var gnodes = svg.selectAll('g.gnode')
+       .data(graph.nodes)
+       .enter()
+       .append('g')
+       .classed('gnode', true);
+    
+      var node = gnodes.append("circle")
+          .attr("class", "node")
+          .attr("r", 5)
+          .style("fill", function(d) { return color(d.group); })
+          .call(force.drag);
+
+      var labels = gnodes.append("text")
+          .text(function(d) { return d.name; });
+
+  // console.log(labels);
+    
+      force.on("tick", function() {
+        link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+        gnodes.attr("transform", function(d) { 
+            return 'translate(' + [d.x, d.y] + ')'; 
+        });
+          
+        
+          
+      });
+    }
+
+
+    
+    $('#submit_form').submit( function(e){  
+      console.log('hello');
+        $this = $(this);
+        $.ajax({
+            data: $this.serialize(),
+            type: 'GET',
+            url: '/tab3/search/',
+            success: function(data){
+
+                // console.log(data['error']);
+                draw1( data );
+            },
+            error: function(error){
+                console.log(error)
+            }
+        })
+
+        e.preventDefault();
+    })
+
+    
+    </script>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/static/js/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+  <!--   // <script src="/static/js/raphael-min.js"></script>
+    // <script src="/static/js/morris.min.js"></script>
+    // <script src="/static/js/morris-data.js"></script> -->
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

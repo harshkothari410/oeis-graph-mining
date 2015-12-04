@@ -41,6 +41,14 @@
           stroke-opacity: .6;
         }
 
+        #page-wrapper1{
+            width: 100%;
+            height: 100%;
+            background: white;
+            padding-left: 20px;
+            padding-bottom: 30px;
+        }
+
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -68,33 +76,48 @@
             </div>
             <!-- /.navbar-header -->
 
+            <ul class="nav navbar-top-links navbar-right">
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/">
+                        Shortest Path
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/tab2/">
+                        Case 2
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/sssp/">
+                        SSSP
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/apsp/">
+                        ASPS
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle"  href="/centroids/">
+                        Centroids
+                    </a>
+                </li>
+                
+                <!-- /.dropdown -->
+            </ul>
            
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Shortest Path</a>
-                        </li>
-                        
-                        <li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Case 2</a>
-                        </li>
-                        <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Case 3</a>
-                        </li>
-                       
-    
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
+            
             <!-- /.navbar-static-side -->
         </nav>
 
-        <div id="page-wrapper">
+        <div id="page-wrapper1">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Shortest Path</h1>
@@ -106,44 +129,34 @@
                 <div class="col-sm-6 col-sm-offset-3">
                     <form role="form" id="submit_form">
                                        
-                                        <div class="form-group">
-                                            <label>Enter 1st Sequence</label>
-                                            <input class="form-control" name="seq1" placeholder="Enter sequence">
-                                        </div>
+                        <div class="form-group">
+                            <label>Enter 1st Sequence</label>
+                            <input class="form-control" name="seq1" placeholder="Enter sequence">
+                        </div>
 
-                                        <div class="form-group">
-                                            <label>Enter 2nd Sequence</label>
-                                            <input class="form-control" name="seq2" placeholder="Enter sequence">
-                                        </div>
-                                       
-                                        
-                                        <div class="form-group">
-                                            <label>Checkboxes</label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="">BFS
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="">Dijkstra
-                                                </label>
-                                            </div>
-                                           
-                                        </div>
-                                       
-                                        
-                                       
-                                       
-                                        
-                                        <button type="submit" id= "submit" class="btn btn-default">Submit Button</button>
-                                        <button type="reset" class="btn btn-default">Reset Button</button>
-                                    </form>
+                        <div class="form-group">
+                            <label>Enter 2nd Sequence</label>
+                            <input class="form-control" name="seq2" placeholder="Enter sequence">
+                        </div>
+     
+                        <button type="submit" id= "submit" class="btn btn-default">Submit Button</button>
+                        <button type="reset" class="btn btn-default">Reset Button</button>
+                    </form>
                 </div>
                  
             </div>
 
-            <p class="visual" val-str = "{{data}}"></p>
+            <div class="col-sm-12">
+                <div>
+                     <h1 class="page-header">Breadth First Search</h1>
+                    <p class="visual1 col-sm-12"></p>
+                </div>
+
+                <div> 
+                     <h1 class="page-header">Dijkstra</h1>
+                    <p class="visual2 col-sm-12"></p>
+                </div>
+            </div>
             <!-- /.row -->
             <!-- /.row -->
         </div>
@@ -159,9 +172,9 @@
 
     <script>
 
-    var draw = function(graph){
-        var width = 960,
-        height = 500;
+    var draw1 = function(graph){
+        var width = 1000,
+        height = 600;
 
     var color = d3.scale.category20();
 
@@ -170,7 +183,7 @@
         .linkDistance(120)
         .size([width, height]);
 
-    var svg = d3.select("p").append("svg")
+    var svg = d3.select(".visual1").append("svg")
         .attr("width", width)
         .attr("height", height);
 
@@ -243,6 +256,92 @@
   });
     }
 
+
+    var draw2 = function(graph){
+        var width = 1000,
+        height = 600;
+
+    var color = d3.scale.category20();
+
+    var force = d3.layout.force()
+        .charge(-120)
+        .linkDistance(120)
+        .size([width, height]);
+
+    var svg = d3.select(".visual2").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+
+    sss = $('.visual').text();
+    ddd = {
+  "nodes":[
+    {"name":"Myriel","group":1},
+    {"name":"Napoleon","group":1},
+    {"name":"Mlle.Baptistine","group":1},
+    {"name":"Mme.Magloire","group":1},
+    {"name":"CountessdeLo","group":1},
+    ],
+
+    "links":[
+    {"source":1,"target":2,"value":1},
+    {"source":2,"target":3,"value":8},
+    {"source":3,"target":4,"value":1},
+    // {"source":4,"target":2,"value":1},
+    ]};
+
+
+    // d3.json("/static/miserables.json", function(error, graph) {
+      // if (error) throw error;
+   
+    // console.log(data1);
+    // graph = ddd;
+    console.log(graph);
+      // console.log('1');
+      force
+          .nodes(graph.nodes)
+          .links(graph.links)
+          .start();
+
+      var link = svg.selectAll(".link")
+          .data(graph.links)
+        .enter().append("line")
+          .attr("class", "link")
+          .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+      var gnodes = svg.selectAll('g.gnode')
+     .data(graph.nodes)
+     .enter()
+     .append('g')
+     .classed('gnode', true);
+    
+  var node = gnodes.append("circle")
+      .attr("class", "node")
+      .attr("r", 5)
+      .style("fill", function(d) { return color(d.group); })
+      .call(force.drag);
+
+  var labels = gnodes.append("text")
+      .text(function(d) { return d.name; });
+
+  // console.log(labels);
+    
+  force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    gnodes.attr("transform", function(d) { 
+        return 'translate(' + [d.x, d.y] + ')'; 
+    });
+      
+    
+      
+  });
+    }
+
+
     $('#submit_form').submit( function(e){  
         $this = $(this);
         $.ajax({
@@ -250,8 +349,16 @@
             type: 'GET',
             url: '/search/',
             success: function(data){
-                console.log(data);
-                draw( data );
+
+                console.log(data['error']);
+                if (data['error']){
+                    $('.visual2, .visual1').text(data['error']);
+                }
+                else{
+                    console.log(data);
+                    draw1( data[0] );
+                    draw2( data[1] );
+                }
             },
             error: function(error){
                 console.log(error)

@@ -20,4 +20,9 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'$^', 'oeismining.views.index'),
     url(r'^search/', 'oeismining.views.search'),
+    url(r'^tab2/', 'oeismining.views.page2'),
+    url(r'^tab3/search/', 'oeismining.views.tab2search'),
+    url(r'^centroids/', 'oeismining.views.centroids'),
+    url(r'^apsp/', 'oeismining.views.apsp'),
+    url(r'^sssp/', 'oeismining.views.sssp'),
 ]
